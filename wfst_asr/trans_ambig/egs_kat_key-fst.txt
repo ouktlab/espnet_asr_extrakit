@@ -1,0 +1,1 @@
+pause01 trans_ambig/kat_ambig01.fst

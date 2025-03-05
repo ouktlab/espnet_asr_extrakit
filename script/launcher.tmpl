@@ -1,0 +1,14 @@
+#! /bin/bash
+__ESPNET_ROOT=
+__BASE_DIR=`pwd`
+
+export __ESPNET_ROOT
+export __BASE_DIR
+
+cd ${__ESPNET_ROOT}
+. ${__ESPNET_ROOT}/tools/activate_python.sh
+. ${__ESPNET_ROOT}/tools/extra_path.sh
+cd ${__BASE_DIR}
+
+echo "  [LAUNCH]: ${@:1}"
+${@:1}

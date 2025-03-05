@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)http://visjs.org/examples/network/other/manipulation.html -->
+<!-- recent reference: https://visjs.github.io/vis-network/examples/network/other/manipulationEditEdgeNoDrag.html -->
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>FST Editor: new</title>
+
+  <script type="text/javascript" src="/eel.js"></script>
+  <style type="text/css">
+    body,
+    select {
+      font: 10pt sans;
+    }
+
+    #fst {
+      position: relative;
+      width: 800px;
+      height: 600px;
+      border: 1px solid lightgray;
+    }
+
+    table.legend_table {
+      font-size: 11px;
+      border-width: 1px;
+      border-color: #d3d3d3;
+      border-style: solid;
+    }
+
+    table.legend_table,
+    td {
+      border-width: 1px;
+      border-color: #d3d3d3;
+      border-style: solid;
+      padding: 2px;
+    }
+
+    div.table_content {
+      width: 80px;
+      text-align: center;
+    }
+
+    div.table_description {
+      width: 100px;
+    }
+
+    #operation {
+      font-size: 16px;
+    }
+
+    #network-popUp {
+      display: none;
+      position: absolute;
+      top: 350px;
+      left: 170px;
+      z-index: 299;
+      width: 250px;
+      height: 120px;
+      background-color: #f9f9f9;
+      border-style: solid;
+      border-width: 3px;
+      border-color: #5394ed;
+      padding: 10px;
+      text-align: center;
+    }
+  </style>
+  
+  <script type="text/javascript" src="https://visjs.github.io/vis-network/standalone/umd/vis-network.min.js"></script>  
+
+  <script type="text/javascript">
+    function initNetwork() {
+	var nodes = [];
+	var edges = [];
+	var connectionCount = [];
+	
+	nodes.push({
+	    id: 0,
+	    label:'<s>',
+	    shape:'box'
+	});
+	nodes.push({
+	    id: 1,
+	    label:'こんにちは+コンニチワ',
+	    shape:'box'
+	});
+	nodes.push({
+	    id: 2,
+	    label:'</s>',
+	    shape:'box'
+	});
+	
+	edges.push({
+	    from: 0,
+	    to: 1,
+	    arrows:'to',
+	});
+	
+	edges.push({
+	    from: 1,
+	    to: 2,
+	    arrows:'to',
+	});
+	return {nodes:nodes, edges:edges};
+    }
+    
+    var nodes = null;
+    var edges = null;
+    var network = null;
+    var data = initNetwork();
+
+    function setDefaultLocale() {
+      var defaultLocal = navigator.language;
+      var select = document.getElementById('locale');
+      select.selectedIndex = 0; // set fallback value
+      for (var i = 0, j = select.options.length; i < j; ++i) {
+        if (select.options[i].getAttribute('value') === defaultLocal) {
+          select.selectedIndex = i;
+          break;
+        }
+      }
+    }
+
+    function destroy() {
+      if (network !== null) {
+        network.destroy();
+        network = null;
+        document.getElementById('config').innerHTML = '';
+      }
+    }
+
+    function draw() {
+      destroy();
+      nodes = [];
+      edges = [];
+
+      // create a network
+      var container = document.getElementById('fst');
+      var options = {
+        layout: {
+          randomSeed:2,
+        }, 
+        physics: false,
+        edges: {
+          smooth: {
+            enabled: true,
+            type:"cubicBezier",
+            roundness:1.0,
+          },
+        },
+        locale: 'en', 
+        manipulation: {
+          addNode: function(data, callback) {
+            // filling in the popup DOM elements
+            document.getElementById('operation').innerHTML = "Add Node";
+            document.getElementById('node-word').value = "";
+            document.getElementById('node-pron').value = "";
+            document.getElementById('node-att').value = "";
+            document.getElementById('saveButton').onclick = saveData.bind(this, data, callback);
+            document.getElementById('cancelButton').onclick = clearPopUp.bind();
+            document.getElementById('network-popUp').style.display = 'block';
+            document.getElementById('node-word').focus();
+          },
+          editNode: function(data, callback) {
+            // filling in the popup DOM elements
+            document.getElementById('operation').innerHTML = "Edit Node";
+            var token = data.label.split('+');
+            if (token.length == 2) {
+              document.getElementById('node-word').value = token[0];
+              document.getElementById('node-pron').value = token[1];
+              document.getElementById('node-att').value = "";
+            }
+            else if (token.length == 3) {
+              document.getElementById('node-word').value = token[0];
+              document.getElementById('node-pron').value = token[1];
+              document.getElementById('node-att').value = token[2];
+            }
+            else {
+              document.getElementById('node-word').value = token[0];
+              document.getElementById('node-pron').value = "";
+              document.getElementById('node-att').value = "";
+            }
+            document.getElementById('saveButton').onclick = saveData.bind(this, data, callback);
+            document.getElementById('cancelButton').onclick = cancelEdit.bind(this, callback);
+            document.getElementById('network-popUp').style.display = 'block';
+          },
+          addEdge: function(data, callback) {
+            data.arrows = 'to';
+            if (data.from == data.to) {
+              var r = confirm("Do you want to connect the node to itself?");
+              if (r == true) {
+                callback(data);
+              }
+            } else {
+              callback(data);
+            }
+          }
+        }
+      };
+      network = new vis.Network(container, data, options);
+    }
+
+    function clearPopUp() {
+      document.getElementById('saveButton').onclick = null;
+      document.getElementById('cancelButton').onclick = null;
+      document.getElementById('network-popUp').style.display = 'none';
+    }
+
+    function cancelEdit(callback) {
+      clearPopUp();
+      callback(null);
+    }
+
+    function saveData(data, callback) {
+      var pron = document.getElementById('node-pron').value;
+      var attr = document.getElementById('node-att').value;
+
+      var label = document.getElementById('node-word').value;
+      if (pron != "") {
+        label = label + "+" + pron;
+      }
+      if (attr != "") {
+        label = label + "+" + attr;
+      }
+
+      data.label = label;
+      data.shape = 'box';
+      clearPopUp();
+      callback(data);
+    }
+
+    function init() {
+      draw();
+    }
+
+    function addConnections(elem, index) {
+      elem.connections = network.getConnectedNodes(index);
+    }
+
+    function objectToArray(obj) {
+      return Object.keys(obj).map(function(key) {
+        obj[key].id = key;
+        return obj[key];
+      });
+    }
+
+    function loadFromFile() {
+      var nodes = [];
+      var edges = [];
+
+      //
+      const showOpenFileDialog = () => {
+        return new Promise(resolve => {
+          const input = document.createElement('input');
+          input.type = 'file';
+          //input.accept = '.txt';
+          input.onchange = event => {
+            resolve(event.target.files[0]);
+          };
+          input.click();
+        });
+      };
+
+      const readAsText = file => {
+        return new Promise(resolve => {
+          const reader = new FileReader();
+          reader.readAsText(file);
+          reader.onload = () => {
+            resolve(reader.result);
+          };
+        });
+      };
+
+      (async () => {
+        const file = await showOpenFileDialog();
+        const content = await readAsText(file);
+        var lines = content.split(/\r\n|\r|\n/);
+
+        console.dir(file);
+        document.title = "FST Editor: " + file.name;
+
+        var state = 0;
+        for (let i = 0; i < lines.length; i++) {
+          var line = lines[i];
+          if (line.length < 2) {
+            continue;
+          }
+
+          var res = line.match('--nodes--');
+          if (res != null) {
+            state = 1;
+            continue;
+          }
+
+          var res = line.match('--edges--');
+          if (res != null) {
+            state = 2;
+            continue;
+          }
+
+          if (state == 1) {
+            res = line.split(/,/);
+            console.log(res[0] + ' ' + res[1]);
+            console.log(res.length);
+            if (res.length == 2) {
+              nodes.push({
+                id: res[0],
+                label: res[1],
+                shape: 'box'
+              });
+            } else if (res.length == 4) {
+              nodes.push({
+                id: res[0],
+                label: res[1],
+                x: res[2],
+                y: res[3],
+                shape: 'box'
+              });
+            }
+          }
+
+          if (state == 2) {
+            res = line.split(/,/);
+            console.log(res[0] + ' ' + res[1]);
+            edges.push({
+              from: res[0],
+              to: res[1],
+              arrows: 'to',
+            });
+          }
+        }
+
+        data = {
+          nodes: nodes,
+          edges: edges
+        };
+        console.log(data);
+        destroy();
+        init();
+        console.dir(network);
+      })();
+    }
+
+    function saveToFile() {
+      console.dir(network);
+      var nodes = network.body.data.nodes._data;
+      var edges = network.body.data.edges._data;
+      var node_info = network.body.nodes;
+
+      var data = '';
+      console.log('---- edges ----');
+      data += '--edges--\n';
+      for (let key in edges) {
+        console.log(edges[key].from + ',' + edges[key].to);
+        data += edges[key].from + ',' + edges[key].to + '\n';
+      }
+
+      console.log('----- nodes ----');
+      data += '--nodes--\n';
+      for (let key in nodes) {
+        console.log(nodes[key].id + ' ' + nodes[key].label + ' ' +
+          node_info[key].x + ' ' + node_info[key].y);
+        data += nodes[key].id + ',' + nodes[key].label + ',' +
+          node_info[key].x + ',' + node_info[key].y + '\n';
+      }
+      console.log(data);
+      eel.saveFST2File(data);
+    }
+
+    function clearNetwork() {
+      destroy();
+      data = initNetwork();
+      document.title = "FST Editor: new";
+      init();
+    }
+  </script>
+
+</head>
+
+<body onload="init();">
+  <input type="button" value="clear" onClick="clearNetwork()">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <input type="button" value="load" onClick="loadFromFile()">
+  <input type="button" value="save" onClick="saveToFile()">
+  <br>
+  <div id="network-popUp">
+    <span id="operation">node</span> <br>
+    <table style="margin:auto;">
+      <tbody>
+        <tr>
+          <td>単語</td>
+          <td> <input id="node-word" value="new value"> </td>
+        </tr>
+        <tr>
+          <td>ヨミ</td>
+          <td> <input id="node-pron" value="new value"> </td>
+        </tr>
+        <tr>
+          <td>属性</td>
+          <td> <input id="node-att" value="new value"> </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <input type="button" value="save" id="saveButton">
+    <input type="button" value="cancel" id="cancelButton">
+  </div>
+  <br>
+
+  <div id="fst">
+    <div class="vis-network" tabindex="900" style="position: relative; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 100%; height: 100%;">
+      <canvas width="800" height="600" style="position: relative; touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 100%; height: 100%;">
+      </canvas>
+      <div class="vis-manipulation" style="display: none;">
+      </div>
+      <div class="vis-edit-mode" style="display: block;">
+        <div class="vis-button vis-edit vis-edit-mode" style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+        </div>
+      </div>
+      <div class="vis-close" style="display: none;">
+      </div>
+    </div>
+  </div>
+  <div id="config"></div>
+
+</body>
+
+</html>
