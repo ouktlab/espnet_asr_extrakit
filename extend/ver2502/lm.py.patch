@@ -1,0 +1,4 @@
+14a15
+> from espnet2.lm.wfst_lm import WFSTLM ## inserted
+30a32
+>         wfst=WFSTLM, ## inserted
