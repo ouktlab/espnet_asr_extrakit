@@ -5,6 +5,8 @@ stage=0
 #
 ###
 if [ $stage -le 0 ]; then
+  mkdir -p fst_model
+  
   # conver vis into fst
   sh auxtool/vis2fst.sh tmpl_vis/net_railroad.vis \
      fst_model/railroad_G

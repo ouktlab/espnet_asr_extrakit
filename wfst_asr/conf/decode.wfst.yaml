@@ -1,0 +1,14 @@
+asr_train_config: 
+asr_model_file: 
+lm_train_config: 
+lm_file: null
+token_type: char
+bpemodel: null
+maxlenratio: 0.0
+minlenratio: 0.0
+beam_size: 40
+ctc_weight: 0.3
+lm_weight: 0.01
+penalty: 0.0
+nbest: 5
+device: cuda

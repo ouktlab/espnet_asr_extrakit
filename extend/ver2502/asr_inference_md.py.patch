@@ -1,0 +1,11 @@
+28c28
+< from espnet2.tasks.asr import ASRTask
+---
+> from espnet2.tasks.asr_md import ASRTask ## modified
+554c554,557
+<             assert len(enc) == 1, len(enc)
+---
+>             #assert len(enc) == 1, len(enc)
+>             #print('[LOG]: skip assert len(enc) == 1, len(enc) in asr_inference_md.py, ', len(enc), ',', enc.shape) ## inserted
+>             enc = torch.mean(enc, 0).unsqueeze(0) ## inserted
+>             #print('[LOG]: calc mean of enc', len(enc), ',', enc.shape) ## inserted

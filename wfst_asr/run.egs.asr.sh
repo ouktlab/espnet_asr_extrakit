@@ -1,5 +1,6 @@
 #####
-stage=2
+stage=0
+device=cuda # cpu
 kat_modeldir=models/espnet_ja_katakana_corpus10/
 kan_modeldir=models/espnet_ja_kanakanji_corpus10/
 ####
@@ -41,6 +42,7 @@ if [ $stage -le 3 ]; then
 		     --asr_train_config ${kat_modeldir}/exp/asr_train_asr_transformer_ja_raw_jp_char_sp/config.yaml.update \
 		     --asr_model_file ${kat_modeldir}/exp/asr_train_asr_transformer_ja_raw_jp_char_sp/valid.cer.ave_10best.pth \
 		     --lm_train_config fst_model/railroad_station_final.config \
+		     --device ${device} \
     | tee log.railroad_station.txt
   
   ../script/launcher python3 wfstasr.py \
@@ -49,6 +51,7 @@ if [ $stage -le 3 ]; then
 		     --asr_train_config ${kat_modeldir}/exp/asr_train_asr_transformer_ja_raw_jp_char_sp/config.yaml.update \
 		     --asr_model_file ${kat_modeldir}/exp/asr_train_asr_transformer_ja_raw_jp_char_sp/valid.cer.ave_10best.pth \
 		     --lm_train_config fst_model/railroad_any_final.config \
+		     --device ${device} \
     | tee log.railroad_any.txt
 
   ../script/launcher python3 wfstasr.py \
@@ -57,6 +60,7 @@ if [ $stage -le 3 ]; then
 		     --asr_train_config ${kat_modeldir}/exp/asr_train_asr_transformer_ja_raw_jp_char_sp/config.yaml.update \
 		     --asr_model_file ${kat_modeldir}/exp/asr_train_asr_transformer_ja_raw_jp_char_sp/valid.cer.ave_10best.pth \
 		     --lm_train_config fst_model/name_any_final.config \
+		     --device ${device} \
     | tee log.name_any.txt
 
   cat log.*
@@ -75,7 +79,8 @@ if [ $stage -le 4 ]; then
 		     --fstlistfile trans_ambig/egs_kat_key-fst.txt \
 		     --asr_train_config ${kat_modeldir}/exp/asr_train_asr_transformer_ja_raw_jp_char_sp/config.yaml.update \
 		     --asr_model_file ${kat_modeldir}/exp/asr_train_asr_transformer_ja_raw_jp_char_sp/valid.cer.ave_10best.pth \
-		     --lm_train_config fst_model/kat_default.config
+		     --lm_train_config fst_model/kat_default.config \
+		     --device ${device}
 fi
 
 # recognize based on wfst-lm list
@@ -91,5 +96,6 @@ if [ $stage -le 5 ]; then
 		     --fstlistfile trans_ambig/egs_kan_key-fst.txt \
 		     --asr_train_config ${kan_modeldir}/exp/asr_train_asr_transformer_ja_raw_jp_char_sp/config.yaml.update \
 		     --asr_model_file ${kan_modeldir}/exp/asr_train_asr_transformer_ja_raw_jp_char_sp/valid.cer.ave_10best.pth \
-		     --lm_train_config fst_model/kan_default.config
+		     --lm_train_config fst_model/kan_default.config \
+		     --device ${device}
 fi

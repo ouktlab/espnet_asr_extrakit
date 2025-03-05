@@ -1,4 +1,5 @@
 stage=0
+device=cuda # cpu
 
 #
 if [ $stage -le 0 ]; then
@@ -20,16 +21,18 @@ if [ $stage -le 1 ]; then
 		     ${modeldir}/exp/lm_train_lm_ja_char/valid.loss.ave_5best.pth \
 		     data/list/egs_train_key-path.txt \
 		     ${resultdir}/list_asr_result.txt \
-		     --device cuda
+		     --device ${device}
 fi
 
 ## score (CER) calculation
 if [ $stage -le 2 ]; then
   # ref
-  cat data/list/egs_train_key-text.txt | python3 trn2evalfmt.py > ${resultdir}/ref.txt
+  cat data/list/egs_train_key-text.txt \
+    | python3 trn2evalfmt.py > ${resultdir}/ref.txt
 
   # hyp
-  cat ${resultdir}/list_asr_result.txt | python3 trn2evalfmt.py > ${resultdir}/hyp.txt
+  cat ${resultdir}/list_asr_result.txt \
+    | python3 trn2evalfmt.py > ${resultdir}/hyp.txt
 
   #
   ../script/launcher sclite \

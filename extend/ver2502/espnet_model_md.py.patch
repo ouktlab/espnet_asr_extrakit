@@ -1,0 +1,12 @@
+428,431c428,433
+<         assert encoder_out.size(0) == speech.size(0), (
+<             encoder_out.size(),
+<             speech.size(0),
+<         )
+---
+>         #assert encoder_out.size(0) == speech.size(0), ( ## comment out
+>         #    encoder_out.size(),
+>         #    speech.size(0),
+>         #)
+>         #print('[LOG]: skip assert encoder_out.size(0) in espnet_model_md.py', encoder_out.shape) ## inserted
+>         

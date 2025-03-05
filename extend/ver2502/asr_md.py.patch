@@ -1,0 +1,8 @@
+54c54
+< from espnet2.asr.espnet_model import ESPnetASRModel
+---
+> from espnet2.asr.espnet_model_md import ESPnetASRModel ## modified
+61a62
+> from espnet2.asr.frontend.md import MissingDataInterface ## inserted
+102a104
+>         md=MissingDataInterface, ## inserted

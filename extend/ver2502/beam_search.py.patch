@@ -1,0 +1,33 @@
+21a22,23
+>     scores_hists: Dict[str, torch.Tensor] = dict()  ## inserted
+>     
+315a318,332
+>     ## inserted
+>     @staticmethod
+>     def append_scores_hists(
+>         scores_hists: Dict[str, torch.Tensor],
+>         prev_scores: Dict[str, torch.Tensor],
+>         new_scores: Dict[str, torch.Tensor],
+>     ) -> Dict[str, torch.Tensor]:
+>         """Append score histroy
+>         """
+>         new_scores_hists = dict()
+>         for k, v in prev_scores.items():           
+>             new_scores_hists[k] = torch.cat([scores_hists[k], torch.tensor([(new_scores[k] - prev_scores[k]).to('cpu')])], dim=0)        
+>         return new_scores_hists
+> 
+> 
+366a384,388
+> 
+>                 ## inserted
+>                 new_scores = self.merge_scores(hyp.scores, scores, j, part_scores, part_j)
+>                 new_scores_hists = self.append_scores_hists(hyp.scores_hists, hyp.scores, new_scores)
+> 
+371,373c393
+<                         scores=self.merge_scores(
+<                             hyp.scores, scores, j, part_scores, part_j
+<                         ),
+---
+>                         scores=new_scores, ## replaced
+375a396
+>                         scores_hists=new_scores_hists, ## inserted

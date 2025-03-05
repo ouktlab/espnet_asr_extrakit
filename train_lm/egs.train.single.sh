@@ -34,9 +34,10 @@ valid_shape_txt=${listdir}/valid_key-shape.txt
 # stats
 if [ $stage -le 0 ]; then
     echo "---- stage 0 ----"
-    #cat ${train_key_txt} | python3 ../script/gettoken.py \
-    #				   > ${token_list}
-
+    if [ ! -e ${token_list} ]; then
+      cat ${train_key_txt} | python3 ../script/gettoken.py \
+    				     > ${token_list}
+    fi
     ntoken=`wc ${token_list} | awk '{print $1}'`
     echo "# of tokens: " $ntoken
     cat ${train_key_txt} | python3 ../script/char2shape.py ${ntoken} \

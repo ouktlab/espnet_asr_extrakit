@@ -1,0 +1,40 @@
+24a25
+>     scores_hists: Dict[str, torch.Tensor] = dict() # values: (batch, maxlen) ## inserted 
+52a54
+>             scores_hists={k: pad_sequence([h.scores_hists[k] for h in hyps], batch_first=True, padding_value=0.0) for k in self.scorers}, ## inserted
+70a73
+>             scores_hists={k: v[ids] for k, v in hyps.scores_hists.items()}, ## inserted
+81a85
+>             scores_hists={k: v[i, : hyps.length[i]] for k, v in hyps.scores_hists.items()}, ## inserted
+95a100
+>                 scores_hists={k: batch_hyps.scores_hists[k][i][: batch_hyps.length[i]] for k in self.scorers}, ## inserted
+141a147
+>         init_scores_hists = dict()  ## inserted
+144a151
+>             init_scores_hists[k] = torch.tensor([])  ## inserted
+155a163
+>                     scores_hists=init_scores_hists,  ## inserted
+335a344,354
+> 
+>             ## inserted
+>             new_scores = self.merge_scores(
+>                 prev_hyp.scores,
+>                 {k: v[full_prev_hyp_id] for k, v in scores.items()},
+>                 full_new_token_id,
+>                 {k: v[part_prev_hyp_id] for k, v in part_scores.items()},
+>                 part_new_token_id,
+>             )
+>             new_scores_hists = self.append_scores_hists(prev_hyp.scores_hists, prev_hyp.scores, new_scores)
+>             
+340,346c359
+<                     scores=self.merge_scores(
+<                         prev_hyp.scores,
+<                         {k: v[full_prev_hyp_id] for k, v in scores.items()},
+<                         full_new_token_id,
+<                         {k: v[part_prev_hyp_id] for k, v in part_scores.items()},
+<                         part_new_token_id,
+<                     ),
+---
+>                     scores=new_scores,  ## inserted
+359a373
+>                     scores_hists=new_scores_hists, ## inserted
