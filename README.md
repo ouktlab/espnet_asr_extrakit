@@ -208,6 +208,7 @@ Note that you need to change the parameter "batch_bins" according to the amount 
 [Back to contents](#contents)
 
 <a id="lm_training_example"></a>
+
 ## LM training example ###
 ### Preparation ###
 Move to the working directory.
