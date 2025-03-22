@@ -7,11 +7,12 @@ Note that coding standars, error handling, comments and so on in this toolkit ar
 ## Requirements ##
 ESPnet is required because our toolkit depends on the python environment and source codes of it. 
 
-- OS: Ubuntu 22.04 (or maybe later)
-- GPU environment (recommended if you want to run programs for training)
+- OS: Ubuntu 22.04 (or maybe later) or Ubuntu 22.04 on Windows WSL
+  - GPU environment is recommended if you want to run programs for training
+  - Speech recognition (inference) will work even on CPU (multi-threading)
 - espnet (source code + install): our patch files depend on a specific commit that may be a little old version.
 - make (for compiling ESPnet tools)
-- python3.10
+- python3.10 (or maybe later)
 - openfst / libfst-tools (for WFST LM)
 
 Python3.10 is suitable for installation of ESPnet (as of 2024/8).
