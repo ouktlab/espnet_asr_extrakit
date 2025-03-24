@@ -1,2 +1,11 @@
 273a274
 >                         scores_hists=self.running_hyps.scores_hists, ## inserted
+453,455c454,457
+<             if is_final:
+<                 for hyp in local_ended_hyps:
+<                     self.ended_hyps.append(hyp)
+---
+>             ## Remove this section because it generates duplicated N-best results at final.
+>             #if is_final:
+>             #    for hyp in local_ended_hyps:
+>             #        self.ended_hyps.append(hyp)

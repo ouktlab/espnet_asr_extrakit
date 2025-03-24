@@ -8,6 +8,8 @@ install_md=true
 uninstall_md=
 install_cprob=true
 uninstall_cprob=
+install_streaming=true
+uninstall_streaming=
 
 ##
 version=ver2502
@@ -55,4 +57,16 @@ fi
 if [ "${uninstall_md}" =  "true" ] && [ $stage -le 6 ]; then
   echo "---- uninstall MD ----"
   ../script/launcher sh install_md.sh ${version} uninstall
+fi
+
+######## streaming #######
+##
+if [ "${install_streaming}" =  "true" ] && [ $stage -le 7 ]; then
+  echo "---- install streaming ----"
+  ../script/launcher sh install_streaming.sh ${version} install 
+fi
+##
+if [ "${uninstall_streaming}" =  "true" ] && [ $stage -le 8 ]; then
+  echo "---- uninstall streaming ----"
+  ../script/launcher sh install_streaming.sh ${version} uninstall
 fi

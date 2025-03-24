@@ -33,6 +33,7 @@ Optional: additional python libraries are required for simple grammar editor.
 - [LM training example](#lm_training_example)
 - [Evaluation example](#evaluation_example)
 - [Alignment example](#alignment_example)
+- [Streaming ASR example](#streaming_example)
 - [Character-level probability](#char-level_prob)
 - [WFST LM](#wfst_lm)
 - [MD-ASR](#md_asr)
@@ -414,6 +415,105 @@ The following figure shows alignment results of CTC- and attention-based segment
 The attention-based segmnentation seems good. 
 
 <img src="img/alignment.png" width="800">
+
+
+[Back to contents](#contents)
+
+
+
+<a id="streaming_example"></a>
+
+## Streaming ASR example
+### Functions and Applications
+- Streaming ASR example using contextual-block-transformer to obtain real-time recognition results
+- Patch files to improve flexibility
+  - Enable options: block size, hop size, look ahead
+  - Implementation of "from_pretrained" method
+  - Removal of duplicated N-best results
+
+Note that this function requires to apply patch files to the ESPnet's source codes. 
+
+### Preparation
+Some patch files need to be applied to the ESPnet source codes. If you have not run the setup script yet, move to "exntend/" directory and run it.
+```
+$ cd extend
+$ sh setup.sh
+$ cd ../
+```
+
+Move to the working directory.
+
+```
+$ cd streaming_asr
+```
+
+### Procedure in the script
+Just run the shell script. 
+```
+$ sh run.streaming.sh
+```
+If you want to run ASR in "cpu" mode, change the \${device} variable in the script.
+
+
+In this example, a current hypothesis will be displayed in real-time. At first, the recotnition results using KanaKanji model are shown.
+```
+[LOG]: data/audio/data021.flac
+[LOG]: real-time result -- 音声認識は声が持つ情報をコンピューターに
+[LOG]: N-best results
+[LOG]:   音声認識は声が持つ情報をコンピューターに認識させるタスクの総称である
+[LOG]:   ん音声認識は声が持つ情報をコンピューターに認識させるタスクの総称である
+[LOG]:   音声認識が声が持つ情報をコンピューターに認識させるタスクの総称である
+[LOG]:   え音声認識は声が持つ情報をコンピューターに認識させるタスクの総称である
+[LOG]:   音声認識や声が持つ情報をコンピューターに認識させるタスクの総称である
+[LOG]: data/audio/data022.flac
+[LOG]: real-time result -- 人の音声認識と対比して自動
+[LOG]: N-best results
+[LOG]:   人の音声認識と対比して自動音声認識とも呼ばれる
+[LOG]:   人の音声認識と対比して自動音声認識とも呼ばれるって
+[LOG]:   人の音声認識と対比して自動音声認識とも呼ばれると
+[LOG]:   人の音声認識と対比して自動音声認識とも呼ばれるて
+[LOG]:   人の音声認識と対比して自動音声認識とも呼ばれるう
+[LOG]: data/audio/data023.flac
+[LOG]: real-time result -- 例として文
+[LOG]: N-best results
+[LOG]:   例として文字起こしや話者認識が挙げられる
+[LOG]:   例として文字起こしや話者認識が挙げられるえ
+[LOG]:   例として文字起こしや話者認識が挙げられるう
+[LOG]:   例として文字起こしや話者認識が上げられる
+[LOG]:   例として文字起こしや話者認識が挙げられると
+```
+
+Then, the recotnition results using Katakana model are shown.
+```
+[LOG]: real-time result -- …オンセーニンシキワコエガモツジョーホーオコンピューターニニンシキサセルタ
+[LOG]: N-best results
+[LOG]:   …オンセーニンシキワコエガモツジョーホーオコンピューターニニンシキサセルタスクノソーショーデアル…
+[LOG]:   …オンセーニンシキワコエガモツリョーホーオコンピューターニニンシキサセルタスクノソーショーデアル…
+[LOG]:   …オンセーニンシキワコエオモツジョーホーオコンピューターニニンシキサセルタスクノソーショーデアル…
+[LOG]:   …オンセーニンシキワコエガモツジョーホーコンピューターニニンシキサセルタスクノソーショーデアル…
+[LOG]:   ンオンセーニンシキワコエガモツジョーホーオコンピューターニニンシキサセルタスクノソーショーデアル…
+[LOG]: data/audio/data022.flac
+[LOG]: real-time result -- …ヒトノオンセーニンシキトタイヒシテジドーオンセーニンシキ
+[LOG]: N-best results
+[LOG]:   …ヒトノオンセーニンシキトタイヒシテジドーオンセーニンシキトモヨバレル…
+[LOG]:   …ヒトノオンセーニンシキオタイヒシテジドーオンセーニンシキトモヨバレル…
+[LOG]:   …ヒトノオンセーニンシキノタイヒシテジドーオンセーニンシキトモヨバレル…
+[LOG]:   …ヒトノオンセーニンシキデタイヒシテジドーオンセーニンシキトモヨバレル…
+[LOG]:   …ヒトノオンセーニンシキデオタイヒシテジドーオンセーニンシキトモヨバレル…
+[LOG]: data/audio/data023.flac
+[LOG]: real-time result -- …レートシテモジオコシヤワシャニ
+[LOG]: N-best results
+[LOG]:   …レートシテモジオコシヤワシャニンシキガアゲラレル…
+[LOG]:   レートシテモジオコシヤワシャニンシキガアゲラレル…
+[LOG]:   …レートシテモジオコシワワシャニンシキガアゲラレル…
+[LOG]:   …レートシテモジオコシオワシャニンシキガアゲラレル…
+[LOG]:   …レートシテモジオコシアワシャニンシキガアゲラレル…
+```
+
+
+If you want to try other streaming Japanese models, 
+please visit our site, [espnet_asr_models](https://github.com/ouktlab/espnet_asr_models).
+
 
 
 [Back to contents](#contents)
