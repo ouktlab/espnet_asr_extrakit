@@ -1,5 +1,5 @@
 stage=0
-device=cuda
+device=cuda # cpu
 
 if [ $stage -le 0 ]; then
   echo "---- stage 0 ----"

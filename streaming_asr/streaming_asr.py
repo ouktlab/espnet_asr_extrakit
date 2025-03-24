@@ -16,7 +16,7 @@ def usage():
     parser.add_argument('--token_type', type=str, help='', default='char')
     parser.add_argument('--device', type=str, help='cpu or cuda', default='cpu')
     parser.add_argument('--nbest', type=int, help='nbest', default=5)
-    parser.add_argument('--beam_size', type=int, help='beam size', default=40)
+    parser.add_argument('--beam_size', type=int, help='beam size', default=10)
     parser.add_argument('--ctc_weight', type=float, help='nbest', default=0.3)
     parser.add_argument('--lm_weight', type=float, help='lm weight', default=0.1)
     parser.add_argument('--penalty', type=float, help='lm weight', default=0.0)
@@ -34,7 +34,8 @@ def recognize_wavlist(model, wavlists):
         print('[LOG]:', filename)
         s, fs = torchaudio.load(filename)
         s = s.squeeze()
-
+        wave_time = len(s)/fs
+        
         time_beg = time.perf_counter()
         for pos in range(0, len(s), segment_len):
             segment = s[pos:pos+segment_len]
@@ -43,17 +44,17 @@ def recognize_wavlist(model, wavlists):
             if results is not None and len(results) > 0:
                 nbests = [text for text, token, token_int, hyp in results]
                 text = nbests[0] if nbests is not None and len(nbests) > 0 else ""
-                print(f'[LOG]: real-time result -- {text}\r', file=sys.stderr, end='')
-        print('', file=sys.stderr)
+                print(f'[LOG]: real-time result -- {text}\r', file=sys.stderr, flush=True, end='')
+        
+        print('', file=sys.stderr, flush=True)
         results = model(torch.empty(0), is_final=True)
-        nbests = [text for text, token, token_int, hyp in results]
+        proc_time = time.perf_counter() - time_beg
 
+        nbests = [text for text, token, token_int, hyp in results]
         print(f'[LOG]: N-best results')
         for x in nbests:
             print(f'[LOG]:   {x}')
         
-        proc_time = time.perf_counter() - time_beg
-        wave_time = len(s)/fs
 
     return records
 

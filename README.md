@@ -485,6 +485,7 @@ In this example, a current hypothesis will be displayed in real-time. At first, 
 
 Then, the recotnition results using Katakana model are shown.
 ```
+[LOG]: data/audio/data021.flac
 [LOG]: real-time result -- …オンセーニンシキワコエガモツジョーホーオコンピューターニニンシキサセルタ
 [LOG]: N-best results
 [LOG]:   …オンセーニンシキワコエガモツジョーホーオコンピューターニニンシキサセルタスクノソーショーデアル…
@@ -514,6 +515,12 @@ Then, the recotnition results using Katakana model are shown.
 If you want to try other streaming Japanese models, 
 please visit our site, [espnet_asr_models](https://github.com/ouktlab/espnet_asr_models).
 
+
+### Tunable parameters
+If you want to reduce the latency time, the "beam_size" parameter should be changed. While the "beam_size" is set to 40 in other ASR examples, 10 is used in this example. Note that there is a trade-off between the latency time and the search accuracy during decoding. 
+
+- beam_size
+- nbest
 
 
 [Back to contents](#contents)
