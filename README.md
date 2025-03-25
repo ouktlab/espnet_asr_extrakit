@@ -523,6 +523,25 @@ If you want to reduce the latency time, the "beam_size" parameter should be chan
 - nbest
 
 
+### Streaming ASR server based on adinnet
+This example shows the streaming ASR through network. We can see real-time recognition result (every certain blocks/secs.).
+The I/O interface follows the *adinnet* specification used in [Julius](https://github.com/julius-speech/julius) and [pyadintool](https://github.com/ouktlab/pyadintool). 
+
+Just run the shell script for the streaming ASR server. The service will start with the "localhost:5530" setting (IP and port) and the default huggingface model repository.
+```
+$ sh run.asrserver.sh
+```
+If you want to run ASR in heavy "cpu" mode, change the \${device} variable in the script.
+
+
+In the same PC, run the pyadintool (client) just as 
+```
+(main) $ python3 pyadintool.py conf/default4asr.yaml --in mic --out adinnet --server localhost --port 5530
+```
+Instead of pyadintool, original *adintool* will be available for the client. 
+
+
+
 [Back to contents](#contents)
 
 
