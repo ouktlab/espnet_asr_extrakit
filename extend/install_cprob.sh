@@ -55,12 +55,12 @@ if [ $mode = "uninstall" ]; then
     patch -R ${beamsearch_target} ${beamsearch_patch}
     rm ${beamsearch_target}.orig
   fi
-  if [ -L ${batchbeamsearch_target}.orig ]; then
+  if [ -e ${batchbeamsearch_target}.orig ]; then
     echo "  unapply patch: " ${batchbeamsearch_target} " " ${batchbeamsearch_patch}
     patch -R ${batchbeamsearch_target} ${batchbeamsearch_patch}
     rm ${batchbeamsearch_target}.orig
   fi
-  if [ -L ${batchbeamsearchonline_target}.orig ]; then
+  if [ -e ${batchbeamsearchonline_target}.orig ]; then
     echo "  unapply patch: " ${batchbeamsearchonline_target} " " ${batchbeamsearchonline_patch}
     patch -R ${batchbeamsearchonline_target} ${batchbeamsearchonline_patch}
     rm ${batchbeamsearchonline_target}.orig
