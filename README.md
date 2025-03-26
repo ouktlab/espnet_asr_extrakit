@@ -1,7 +1,7 @@
 # ESPnet ASR Extrakit #
 This repository provides simple examples and extra modules using [ESPnet](https://github.com/espnet/espnet) ASR for **academic research and education (training)**. 
-Our voice activty detecion (VAD) interface [pyadintool](https://github.com/ouktlab/pyadintool) and [examples of pretrained models](https://github.com/ouktlab/espnet_asr_models) will help you to run examples and to develop a spoken dialogue system robust against reverberations and noises. 
-Note that coding standars, error handling, comments and so on in this toolkit are not suitable for joint development.
+Our voice activity detection (VAD) interface [pyadintool](https://github.com/ouktlab/pyadintool) and [examples of pretrained models](https://github.com/ouktlab/espnet_asr_models) will help you to run examples and to develop a spoken dialogue system robust against reverberations and noises. 
+Note that coding standards, error handling, comments and so on in this toolkit are not suitable for joint development.
 
 
 ## Requirements ##
@@ -64,7 +64,7 @@ __ESPNET_ROOT=~/git/espnet_asr_extrakit/espnet/
 ```
 
 ### step 2: set up experimental environments and others ###
-Please use the shell script to setup experimental environemnts and to download pretrained models automatically. It sometimes asks you to type your password for installations using "sudo apt".
+Please use the shell script to setup experimental environments and to download pretrained models automatically. It sometimes asks you to type your password for installations using "sudo apt".
 ```
 $ sh setup.sh
 ```
@@ -75,8 +75,8 @@ If you want to try WFST LM, please edit the "setup.sh" as
 enable_wfst=true
 ```
 
-### step 3: apply patch files for extention ###
-If you want to use extented functions, please apply the patch files to the ESPnet source codes. 
+### step 3: apply patch files for extension ###
+If you want to use extended functions, please apply the patch files to the ESPnet source codes. 
 ```
 $ cd extend
 $ sh setup.sh
@@ -184,7 +184,7 @@ Note that you need to change the parameter "batch_bins" according to the amount 
 ### Fine tuning ####
 Just run the shell script.
 ```
-$ sh run.egs.finetue.sh
+$ sh run.egs.finetune.sh
 ```
 
 The pretrained model is specified by the option "--init_param". **The "token list" of the pretrained model must be specified by the option "--token_list" for this fune tuning.** In our example, this token list is automatically extracted from the configuration file of pretrained ASR model by the "setup.sh" in the preparation section. 
@@ -251,7 +251,7 @@ $ head exp/egs_scratch/tokens.txt
 こ
 さ
 ```
-**Be careful when you use a different text data from the transcription used in the ASR model training or fine tuning**. 
+**Be careful when you use text data different from the transcription used in the ASR model training or fine tuning**. 
 
 ### Training from scratch ####
 Just run the shell script.
@@ -263,10 +263,10 @@ The training can be achieved by calling the "espnet2.bin.lm_train" script of ESP
 ### Fine tuning ####
 Just run the shell script.
 ```
-$ sh run.egs.finetue.sh
+$ sh run.egs.finetune.sh
 ```
 
-The pretrained model is specified by the option "--init_param". **The "token list" of the pretrained model must be specified by the option "--token_list" for this fune tuning.**  
+The pretrained model is specified by the option "--init_param". **The "token list" of the pretrained model must be specified by the option "--token_list" for this fine tuning.**  
 
 
 [Back to contents](#contents)
@@ -353,8 +353,8 @@ The alignments of the following setting will be shown. Please see the script for
 1. CTC-based alignment using KanaKanji model (for a file)
 1. Attention-based alignment using Katakana model (for a file)
 1. Attention-based alignment using KanaKanji model (for a file)
-1. Attention-based alignment using Katakan model (for a file list)
-1. Attention-based alignment using KataKanji model (for a file list)
+1. Attention-based alignment using Katakana model (for a file list)
+1. Attention-based alignment using KanaKanji model (for a file list)
 
 
 ```
@@ -412,7 +412,7 @@ file: data/audio/ambig01.flac
 
 
 The following figure shows alignment results of CTC- and attention-based segmentation: the top text is given by CTC, and the bottom text is given by attention.
-The attention-based segmnentation seems good. 
+The attention-based segmentation seems good. 
 
 <img src="img/alignment.png" width="800">
 
@@ -434,7 +434,7 @@ The attention-based segmnentation seems good.
 Note that this function requires to apply patch files to the ESPnet's source codes. 
 
 ### Preparation
-Some patch files need to be applied to the ESPnet source codes. If you have not run the setup script yet, move to "exntend/" directory and run it.
+Some patch files need to be applied to the ESPnet source codes. If you have not run the setup script yet, move to "extend/" directory and run it.
 ```
 $ cd extend
 $ sh setup.sh
@@ -455,7 +455,7 @@ $ sh run.streaming.sh
 If you want to run ASR in "cpu" mode, change the \${device} variable in the script.
 
 
-In this example, a current hypothesis will be displayed in real-time. At first, the recotnition results using KanaKanji model are shown.
+In this example, a current hypothesis will be displayed in real-time. At first, the recognition results using KanaKanji model are shown.
 ```
 [LOG]: data/audio/data021.flac
 [LOG]: real-time result -- 音声認識は声が持つ情報をコンピューターに
@@ -483,7 +483,7 @@ In this example, a current hypothesis will be displayed in real-time. At first, 
 [LOG]:   例として文字起こしや話者認識が挙げられると
 ```
 
-Then, the recotnition results using Katakana model are shown.
+Then, the recognition results using Katakana model are shown.
 ```
 [LOG]: data/audio/data021.flac
 [LOG]: real-time result -- …オンセーニンシキワコエガモツジョーホーオコンピューターニニンシキサセルタ
@@ -559,7 +559,7 @@ Note that this function requires to apply patch files to the ESPnet's source cod
 
 
 ### Preparation
-Some patch files need to be applied to the ESPnet source codes. If you have not run the setup script yet, move to "exntend/" directory and run it.
+Some patch files need to be applied to the ESPnet source codes. If you have not run the setup script yet, move to "extend/" directory and run it.
 ```
 $ cd extend
 $ sh setup.sh
@@ -612,7 +612,7 @@ lm     : -1.428 -5.845 -4.785 -4.554 -0.093 -5.984 -2.743 -0.944 -0.001 -3.654 -
 - Speech recognition using WFST LM (weight finite state transducer, language model) as a character-level **decoding** constraint
   - This LM is used during decoding. Not for rescoring.
 - Utilization of the traditional explicit grammar-based LM and N-gram LM constructed by using openfst tools
-  - the behavior of ASR in our examples looks like the traditional ASR style using acoustic model (Katakana recognition) and language model (Katakana to KanaKanaji conversion)
+  - the behavior of ASR in our examples looks like the traditional ASR style using acoustic model (Katakana recognition) and language model (Katakana to KanaKanji conversion)
   - but ASR models for this WFST LM are not limited to the Katakana model
 - Any pronunciation spotting: speech recognition by allowing a partial arbitrary character sequence in a grammar network by using *any matching tag*
 
@@ -626,20 +626,20 @@ $ emacs -nw setup.sh # edit option
 enable_wfst=true
 $ sh setup.sh
 ```
-Note that the script file tries to install the following software and libraries by "sudo apt". Please type sudo passward if you do not mind. 
+Note that the script file tries to install the following software and libraries by "sudo apt". Please type sudo password if you do not mind. 
 ```
 sudo apt-get install python3.10-tk libfst-tools chromium-browser
 ```
 
 
-Some patch files also need to be applied to the ESPnet source codes. If you have not run the setup script yet, move to "exntend/" directory and run it.
+Some patch files also need to be applied to the ESPnet source codes. If you have not run the setup script yet, move to "extend/" directory and run it.
 ```
 $ cd extend
 $ sh setup.sh
 $ cd ../
 ```
 
-The virtual environement for this example needs to be activated.
+The virtual environment for this example needs to be activated.
 ```
 $ . venv/bin/activate
 ```
@@ -662,14 +662,14 @@ device=cpu
 ```
 
 The process of this script file consists of four parts:
-1. file format convertion: vis network format (our own format) into the text FST format (run.vis2fst.sh)
+1. file format conversion: vis network format (our own format) into the text FST format (run.vis2fst.sh)
 1. composition of FST files (run.vis2fst.sh)
-1. FST format convertion: text fst format into the binary file of WFST LM class (mkwfst.py)
+1. FST format conversion: text fst format into the binary file of WFST LM class (mkwfst.py)
 1. recognition using generated WFST LM (wfstasr.py)
    - example of Katakana ASR model and WFST LM (Katakana to KanaKanji)
    - example of Katakana ASR model and WFST LM (Katakana to KanaKanji) using "any matching tag"
 1. recognition using prepared WFST LM (wfstasr.py) for ambiguity resolution of transcription
-   - example of short pause estimation using WFST LM (Katakana, KanaKanaji)
+   - example of short pause estimation using WFST LM (Katakana, KanaKanji)
 
 
 The vis files locate in the "tmpl_vis" directory. We can see the grammar structure of these files by using "auxtool/editor.py". 
@@ -685,7 +685,7 @@ The browser-based editor will open by the following command.
 ```
 (venv) $ python3 auxtool/editor.py
 ```
-Click "load" buttom and select the "net_station.vis" file in the "tmpl_vis" directory.
+Click "load" button and select the "net_station.vis" file in the "tmpl_vis" directory.
 
 <img src="img/fst_editor.png" width="600">
 
@@ -693,7 +693,7 @@ The figure above shows the structure of this vis network file. Each node denotes
 The following are explanations of some symbols.
 - \<s>: start of sentence 
 - \</s>: end of sentence
-- 駅+エキ: word and its pronuciation in Katakana
+- 駅+エキ: word and its pronunciation in Katakana
 - @station: tag for network replacement (using fstreplace)
 
 
@@ -731,7 +731,7 @@ The text FST files can be converted into binary files of WFST LM to reduce the m
 The "mkwfst.py" program requires the configuration file of ASR model and text FST file, 
 and it outputs a wfst configuration file and a binary WFST file. WFST ASR uses these two files in recognition.
 
-The acutual model path "\${kat_modeldir}" and FST filename "\${x}" are defined in the shell script.
+The actual model path "\${kat_modeldir}" and FST filename "\${x}" are defined in the shell script.
 ```
 $ ../script/launcher python3 mkwfst.py \
     ${kat_modeldir}/exp/asr_train_asr_transformer_ja_raw_jp_char_sp/config.yaml.update \
@@ -742,7 +742,7 @@ $ ../script/launcher python3 mkwfst.py \
 
 ### Recognition of audio data ###
 The recognition using WFST LM is done by the "wfstasr.py" script. 
-Audio files for recognition can be specified by the "--wavfiles" option. The acutual model path "\${kat_modeldir}" is defined in the shell script.
+Audio files for recognition can be specified by the "--wavfiles" option. The actual model path "\${kat_modeldir}" is defined in the shell script.
 
 ```
 $ ../script/launcher python3 wfstasr.py \
@@ -1020,7 +1020,7 @@ We can try speech enhancement using CPU (2-threads) by the following command. Ru
 A model trained with *clean* (not reverberant) speech at huggingface is automatically donwloaded. Note that this method estimates speech amplitude spectrogram. Therefore, we cannot re-synthesize a signal in the time domain from it . 
 
 
-Two spectrogram will be shown: one is a input noisy spectrogram (left) and the other is a enhanced speech spectrogram (right). Note that the estimated spectrogram is not always correct. It sometimes generates fake harmonic structures (like *hallucination*). 
+Two spectrogram will be shown: one is an input noisy spectrogram (left) and the other is an enhanced speech spectrogram (right). Note that the estimated spectrogram is not always correct. It sometimes generates fake harmonic structures (like *hallucination*). 
 
 
 <img src="img/speech_enhance.png" width="800">
