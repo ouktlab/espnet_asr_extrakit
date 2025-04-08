@@ -185,7 +185,7 @@ def main():
     import matplotlib.pyplot as plt
     parser = argparse.ArgumentParser()
     parser.add_argument('wavfile', type=str)
-    parser.add_argument('--parampath', type=str, default='ouktlab/_for_check_specenh')
+    parser.add_argument('--parampath', type=str, default='ouktlab/TSSE-v1_csjcore-cln_pse-cln')
     parser.add_argument('--nthread', type=int, default=2)
     args = parser.parse_args()
 
