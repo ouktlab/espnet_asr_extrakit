@@ -14,6 +14,7 @@ ESPnet is required because our toolkit depends on the python environment and sou
 - make (for compiling ESPnet tools)
 - python3.10 (or maybe later)
 - openfst / libfst-tools (for WFST LM)
+- git lfs
 
 Python3.10 is suitable for installation of ESPnet (as of 2024/8).
 

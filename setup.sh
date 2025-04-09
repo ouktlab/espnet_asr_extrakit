@@ -66,6 +66,9 @@ if [ "${enable_train}" = "true" ] && [ $stage -le 2 ]; then
   
   # download ASR model
   if [ ! -d ${download_dir} ]; then
+    sudo apt install git-lfs
+    git lfs install  
+
     mkdir -p models
     git clone \
     	https://huggingface.co/${hfrepo} \
