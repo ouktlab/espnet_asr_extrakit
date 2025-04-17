@@ -1023,8 +1023,15 @@ A model trained with *clean* (not reverberant) speech at huggingface is automati
 
 Two spectrogram will be shown: one is an input noisy spectrogram (left) and the other is an enhanced speech spectrogram (right). Note that the estimated spectrogram is not always correct. It sometimes generates fake harmonic structures (like *hallucination*). 
 
-
 <img src="img/speech_enhance.png" width="800">
+
+<br>
+
+When you try a different version of simple enhancement implementation, please specify them by using *--model* and *--parampath* options.
+
+```
+../script/launcher python3 usr/nn.py data/audio/data021_noisy.flac --model v2 --parampath ouktlab/TSSE-v2_csjcore-cln_pse-cln
+```
 
 ### Configuration files ###
 We need to prepare two kinds of configuration files. If you want to use your own models, please change the parameters in the two coniguration files according to your settings. 
