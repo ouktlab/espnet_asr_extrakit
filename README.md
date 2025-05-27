@@ -610,7 +610,7 @@ lm     : -1.428 -5.845 -4.785 -4.554 -0.093 -5.984 -2.743 -0.944 -0.001 -3.654 -
 <a id="wfst_lm"></a>
 ## WFST LM ###
 ### Functions and Applications ###
-- Speech recognition using WFST LM (weight finite state transducer, language model) as a character-level **decoding** constraint
+- Speech recognition using WFST LM (weighted finite state transducer, language model) as a character-level **decoding** constraint
   - This LM is used during decoding. Not for rescoring.
 - Utilization of the traditional explicit grammar-based LM and N-gram LM constructed by using openfst tools
   - the behavior of ASR in our examples looks like the traditional ASR style using acoustic model (Katakana recognition) and language model (Katakana to KanaKanji conversion)
@@ -1001,7 +1001,7 @@ Recognition results by speech enhancement + normal-ASR:
 [LOG]: RTF=0.47, Score=-19.637, text=えよとして補助オプシアは他人にしてが挙げられる
 ```
 
-Recognition results by speech enhancement + sampling + MD-ASR: whether MD-ASR works well or not depends on noisy signal, ASR model, and speech enhancement method. 
+Recognition results by speech enhancement + sampling + MD-ASR: whether MD-ASR works well or not depends on noisy signal, ASR model, speech enhancement method, and sampling method. 
 ```
 [LOG]: data/audio/data021_noisy.flac
 [LOG]: RTF=0.56, Score=-14.258, text=音声認識の声が持つ情報をコンピューターに認識させるタスクの総称である
@@ -1031,6 +1031,10 @@ When you try a different version of simple enhancement implementation, please sp
 
 ```
 ../script/launcher python3 usr/nn.py data/audio/data021_noisy.flac --model v2 --parampath ouktlab/TSSE-v2_csjcore-cln_pse-cln
+```
+
+```
+../script/launcher python3 usr/nn.py data/audio/data021_noisy.flac --model v2 --parampath ouktlab/TSSE-v2_csjcore-cln-rev_pse-cln
 ```
 
 ### Configuration files ###
